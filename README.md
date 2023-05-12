@@ -1,2 +1,2 @@
 # 42cursus-cub3D
-beautiful cub3D🎁
+my first Raycaster with miniLibX cub3D🎁
