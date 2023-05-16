@@ -34,6 +34,7 @@ int	main(int ac, char *av[])
 {
 	t_game	game;
 	int		fd;
+	char	*join;
 
 //	atexit(leak);
 	if (ac != 2)
@@ -44,8 +45,18 @@ int	main(int ac, char *av[])
 	if (fd < 0)
 		ft_err("Failed to open file\n");
 	ft_memset(&game, 0, sizeof(game));
-	read_file(fd, &game);
+	join = read_file(fd, &game);
 	close(fd);
+	char **map = ft_split(join, '\n');
+	int i = 0;
+	while(map[i])
+	{
+		printf("map : %s\n", map[i]);
+		i++;
+	}
+	int a = over_len(map);
+	int b = bfs(map);
+	printf("over len : %d bfs : %d\n", a, b);
 	//ac, .cub으로 끝나는지, 맵 하나씩
 	return (0);
 }

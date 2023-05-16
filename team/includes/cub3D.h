@@ -72,6 +72,9 @@ int	context_check(char context, t_game *dir);
 int	mid_context_check(char **map, t_game *dir); //WASD, 1, 0만 있어야댐
 void	append_space_index(char **map, t_queue *q);
 int	bfs(char **map);
+int over_len(char **map);
+int validate_all(char *map_join);
+
 
 /*map_validate_1.c*/
 int		word_cnt(char const *s);
