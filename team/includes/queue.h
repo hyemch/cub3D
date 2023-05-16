@@ -29,14 +29,13 @@ t_node	*dequeue(t_queue *queue);
 int		is_empty(t_queue *queue);
 void	clear_queue(t_queue *queue);
 void	*safe_malloc(size_t	size);
-void	visit_left(t_info *info, t_visit *visit_info,
+void	visit_l(char **map, t_visit *visit_info,
 			t_queue *queue, t_node *point);
-void	visit_right(t_info *info, t_visit *visit_info,
+void	visit_r(char **map, t_visit *visit_info,
 			t_queue *queue, t_node *point);
-void	visit_down(t_info *info, t_visit *visit_info,
+void	visit_d(char **map, t_visit *visit_info,
 			t_queue *queue, t_node *point);			
-void	visit_up(t_info *info, t_visit *visit_info,
+void	visit_up(char **map, t_visit *visit_info,
 			t_queue *queue, t_node *point);
-void	ft_free(int **p);
 void	free_t_visit(t_visit *visit_info);
 #endif

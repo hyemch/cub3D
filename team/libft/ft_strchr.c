@@ -3,25 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yongmipa <yongmipa@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: suhwpark <suhwpark@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 19:24:14 by yongmipa          #+#    #+#             */
-/*   Updated: 2023/05/15 17:33:18 by yongmipa         ###   ########seoul.kr  */
+/*   Updated: 2023/05/15 21:04:12 by suhwpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strchr(const char *s)
+char	*ft_strchr(const char *str, int c)
 {
-	int	i;
-
-	i = 0;
-	while (s[i])
+	while (*str != '\0')
 	{
-		if (ft_isspace(s[i]))
-			return ((char *)s + i);
-		i++;
+		if (*str == (char)c)
+			return ((char *)str);
+		str++;
 	}
+	if ((char)c == '\0')
+		return ((char *)str);
 	return (NULL);
 }
+

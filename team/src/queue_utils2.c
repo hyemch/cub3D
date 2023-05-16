@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   queue_utils2.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: suhwpark <suhwpark@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/16 13:57:11 by suhwpark          #+#    #+#             */
+/*   Updated: 2023/05/16 13:58:03 by suhwpark         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/queue.h"
 
-void	visit_left(char **map, t_visit *visit_info, t_queue *queue, t_node *point)
+void	visit_l(char **map, t_visit *visit_info, t_queue *queue, t_node *point)
 {
 	if (map[point->y][point->x - 1] == ' ')
 	{
@@ -11,7 +23,7 @@ void	visit_left(char **map, t_visit *visit_info, t_queue *queue, t_node *point)
 		visit_info->zero_cnt++;
 }
 
-void	visit_right(char **map, t_visit *visit_info, t_queue *queue, t_node *point)
+void	visit_r(char **map, t_visit *visit_info, t_queue *queue, t_node *point)
 {
 	if (map[point->y][point->x + 1] == ' ')
 	{
@@ -22,7 +34,7 @@ void	visit_right(char **map, t_visit *visit_info, t_queue *queue, t_node *point)
 		visit_info->zero_cnt++;
 }
 
-void	visit_down(char **map, t_visit *visit_info, t_queue *queue, t_node *point)
+void	visit_d(char **map, t_visit *visit_info, t_queue *queue, t_node *point)
 {
 	if (map[point->y - 1][point->x] == ' ')
 	{

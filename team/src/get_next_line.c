@@ -3,97 +3,105 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yongmipa <yongmipa@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: suhwpark <suhwpark@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 17:37:34 by yongmipa          #+#    #+#             */
-/*   Updated: 2023/05/03 18:09:15 by yongmipa         ###   ########seoul.kr  */
+/*   Updated: 2023/05/15 21:44:05 by suhwpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/get_next_line.h"
-#include <unistd.h>
+#include "../includes/cub3D.h"
 
-static	char	*ft_free(char *ptr)
+static char	*ft_free1(char *arr)
 {
-	free(ptr);
+	free(arr);
 	return (NULL);
 }
 
-static char	*read_file(int fd, char *buffer, char *backup)
+static char	*read_line(int fd, char *buf, char *back_up)
 {
-	int		read_size;
-	char	*temp;
+	int		read_byte;
+	char	*tmp_point;
 
 	while (1)
 	{
-		read_size = read(fd, buffer, BUFFER_SIZE);
-		if (read_size == 0)
+		read_byte = read(fd, buf, BUFFER_SIZE);
+		if (read_byte == -1)
+			return (ft_free1(back_up));
+		if (read_byte == 0)
 			break ;
-		if (read_size == -1)
-			return (ft_free(backup));
-		buffer[read_size] = '\0';
-		temp = backup;
-		backup = ft_strjoin(backup, buffer);
-		free(temp);
-		if (!backup)
+		buf[read_byte] = '\0';
+		tmp_point = back_up;
+		back_up = ft_strjoin(back_up, buf);
+		free(tmp_point);
+		if (!back_up)
 			return (NULL);
-		if (ft_strchr(backup, '\n'))
+		if (ft_strchr(back_up, '\n'))
 			break ;
 	}
-	if (backup[0] == '\0')
-		return (ft_free(backup));
-	free(buffer);
-	return (backup);
+	return (back_up);
 }
 
-static char	*substring(char **backup)
+static char	*substring_line(char *tmp)
 {
+	int		i;
 	char	*line;
-	char	*temp;
+
+	if (tmp == 0 || tmp[0] == '\0')
+		return (NULL);
+	i = 0;
+	while (tmp[i] != '\n' && tmp[i] != '\0')
+		i++;
+	line = ft_substr(tmp, 0, i + 1);
+	return (line);
+}
+
+static char	*substring_back_up(char *tmp, char **line)
+{
+	char	*back_up;
 	int		i;
 
 	i = 0;
-	while ((*backup)[i] != '\n' && (*backup)[i] != '\0')
+	if (tmp == 0)
+		return (NULL);
+	if (tmp[0] == '\0')
+		return (ft_free1(tmp));
+	while (tmp[i] != '\n' && tmp[i])
 		i++;
-	line = ft_substr(*backup, 0, i);
-	if (line && (*backup)[i] == '\n' && (*backup)[i + 1] != '\0')
+	if (tmp[i] == '\0')
+		return (ft_free1(tmp));
+	back_up = ft_substr(tmp, i + 1, ft_strlen(tmp) - i - 1);
+	if (!back_up)
 	{
-		temp = *backup;
-		*backup = ft_substr(*backup, i + 1, ft_strlen(*backup) - i - 1);
-		free(temp);
-		if (!*backup)
-			return (ft_free(line));
+		free(*line);
+		*line = NULL;
+		return (ft_free1(tmp));
 	}
-	else
-	{
-		free(*backup);
-		*backup = NULL;
-	}
-	return (line);
+	free(tmp);
+	return (back_up);
 }
 
 char	*get_next_line(int fd)
 {
-	char		*buffer;
+	char		*buf;
 	char		*line;
-	static char	*backup;
+	char		*tmp;
+	static char	*back_up;
 
-	if (!backup)
-	{
-		backup = ft_strdup("");
-		if (!backup)
-			return (NULL);
-	}
-	buffer = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (!buffer)
-	{
-		free(backup);
-		backup = NULL;
+	if (fd < 0 || BUFFER_SIZE < 1)
 		return (NULL);
+	buf = (char *)malloc(BUFFER_SIZE + 1);
+	if (!buf)
+		return (NULL);
+	if (!back_up)
+	{
+		back_up = ft_strdup("");
+		if (!back_up)
+			return (ft_free1(buf));
 	}
-	backup = read_file(fd, buffer, backup);
-	if (!backup)
-		return (ft_free(buffer));
-	line = substring(&backup);
+	tmp = read_line(fd, buf, back_up);
+	free(buf);
+	line = substring_line(tmp);
+	back_up = substring_back_up(tmp, &line);
 	return (line);
 }
