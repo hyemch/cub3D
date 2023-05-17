@@ -133,8 +133,9 @@ char	*read_file(int fd, t_game *game)
 			join = ft_strjoin(join, line);
 			free(tmp);
 		}
-		if (cnt_info_flag(game) != 6 && *line != '\n')
+		else
 			read_map_info(line, game);
+//		if (cnt_info_flag(game) != 6 && *line != '\n')
 		free(line);
 	}
 //	printf("%s\n", join);
@@ -213,17 +214,17 @@ int	read_map_info(char *str, t_game *game)
 	// split 고쳤는데 테스트 해봐야함. split 고치면서 ft_strchr 도 고침 같이 확인 필요...
 	// 마지막에 널까지 확인하기 위해 글자수 +1해줌
 	//이 부분에서 segmentation fault ->구조체 수정
-	if (!ft_strncmp(temp[0], "NO", 3))
+	if (temp[0] != NULL && !ft_strncmp(temp[0], "NO", 3))
 		init_texture(temp, game, 1);
-	else if (!ft_strncmp(temp[0], "SO", 3))
+	else if (temp[0] != NULL && !ft_strncmp(temp[0], "SO", 3))
 		init_texture(temp, game, 2);
-	else if (!ft_strncmp(temp[0], "WE", 3))
+	else if (temp[0] != NULL && !ft_strncmp(temp[0], "WE", 3))
 		init_texture(temp, game, 3);
-	else if (!ft_strncmp(temp[0], "EA", 3))
+	else if (temp[0] != NULL && !ft_strncmp(temp[0], "EA", 3))
 		init_texture(temp, game, 4);
-	else if (!ft_strncmp(temp[0], "F", 2))
+	else if (temp[0] != NULL && !ft_strncmp(temp[0], "F", 2))
 		init_color(temp, game, 5);
-	else if (!ft_strncmp(temp[0], "C", 2))
+	else if (temp[0] != NULL && !ft_strncmp(temp[0], "C", 2))
 		init_color(temp, game, 6);
 	else if (temp[0] != NULL)
 	{
