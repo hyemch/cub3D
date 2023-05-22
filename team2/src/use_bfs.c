@@ -6,7 +6,7 @@
 /*   By: yongmipa <yongmipa@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 17:24:16 by suhwpark          #+#    #+#             */
-/*   Updated: 2023/05/19 17:09:25 by yongmipa         ###   ########seoul.kr  */
+/*   Updated: 2023/05/22 14:49:10 by yongmipa         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,12 +73,12 @@ void	visit_four_direction(char **map, t_queue *q, t_visit *visit)
 			if (visit->visited[pop->y][pop->x + 1] == 0)
 				visit_r(map, visit, q, pop);
 		}
-		if (pop->y - 1 >= 0 && ft_strlen(map[pop->y - 1]) >= ft_strlen(map[pop->y]))
+		if (pop->y - 1 >= 0 && pop->y - 1 < (int)ft_strlen(map[pop->y]))
 			if (visit->visited[pop->y - 1][pop->x] == 0)
-				visit_d(map, visit, q, pop);
-		if (pop->y + 1 < col && ft_strlen(map[pop->y + 1]) >= ft_strlen(map[pop->y]))
-			if (visit->visited[pop->y + 1][pop->x] == 0)
 				visit_up(map, visit, q, pop);
+		if (pop->y + 1 < col && pop->y + 1 > (int)ft_strlen(map[pop->y]))
+			if (visit->visited[pop->y + 1][pop->x] == 0)
+				visit_d(map, visit, q, pop);
 		free(pop);
 	}
 }
@@ -103,11 +103,11 @@ int	bfs(char **map)
 			free(visit->visited[i++]);
 		free(visit->visited);
 		free(visit);
-		return (-1);
+		return (FALSE);
 	}
 	while (visit->visited[i])
 		free(visit->visited[i++]);
 	free(visit->visited);
 	free(visit);
-	return (1);
+	return (TRUE);
 }

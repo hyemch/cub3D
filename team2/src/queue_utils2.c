@@ -6,7 +6,7 @@
 /*   By: yongmipa <yongmipa@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 13:57:11 by suhwpark          #+#    #+#             */
-/*   Updated: 2023/05/19 14:47:19 by yongmipa         ###   ########seoul.kr  */
+/*   Updated: 2023/05/22 14:36:47 by yongmipa         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	visit_r(char **map, t_visit *visit_info, t_queue *queue, t_node *point)
 		visit_info->zero_cnt++;
 }
 
-void	visit_d(char **map, t_visit *visit_info, t_queue *queue, t_node *point)
+void	visit_up(char **map, t_visit *visit_info, t_queue *queue, t_node *point)
 {
 	if (map[point->y - 1][point->x] == ' ')
 	{
@@ -45,7 +45,7 @@ void	visit_d(char **map, t_visit *visit_info, t_queue *queue, t_node *point)
 		visit_info->zero_cnt++;
 }
 
-void	visit_up(char **map, t_visit *visit_info, t_queue *queue, t_node *point)
+void	visit_d(char **map, t_visit *visit_info, t_queue *queue, t_node *point)
 {
 	if (map[point->y + 1][point->x] == ' ')
 	{

@@ -6,7 +6,7 @@
 /*   By: yongmipa <yongmipa@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 15:51:44 by yongmipa          #+#    #+#             */
-/*   Updated: 2023/05/19 15:51:59 by yongmipa         ###   ########seoul.kr  */
+/*   Updated: 2023/05/22 15:34:22 by yongmipa         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,32 +63,72 @@ int	all_around_wall(char **map)
 	return (TRUE);
 }
 
-int	over_len(char **map)
+int	overlen_check(char **map)
 {
-	int	prev_len;
+	int	next;
 	int	curr_len;
 	int	i;
-
-	prev_len = ft_strlen(map[0]);
+	int	len;
+	
+	next = 0;
 	curr_len = 0;
 	i = 0;
-	while (map[i])
+	len = ft_str_col(map);
+	while (i < len - 1)
 	{
 		curr_len = ft_strlen(map[i]);
-		if (curr_len > prev_len)
+		next = ft_strlen(map[i + 1]);
+		if (curr_len > next) // next가 더 짧네?
 		{
-			while (map[i][prev_len])
+			while (map[i][next])
 			{
-				if (map[i][prev_len] != ' ' && map[i][prev_len] != '1')
+				if (map[i][next] != ' ' && map[i][next] != '1')
+				{
+					// printf("i : %d next :%d", i, next);
 					return (FALSE);
-				prev_len++;
+				}
+				next++;
 			}
 		}
-		prev_len = ft_strlen(map[i]);
+		else if (curr_len < next)
+		{
+			while (map[i + 1][curr_len])
+			{
+				if (map[i + 1][curr_len] != ' ' && map[i + 1][curr_len] != '1')
+				{
+					// printf("i + 1 : %d curlen : %d", i + 1, curr_len);
+					return (FALSE);
+				}
+				curr_len++;
+			}
+		}
 		i++;
 	}
 	return (TRUE);
 }
+
+// int	over_len(char **map, int curr_len, int id)
+// {
+// 	int	next_len;
+	
+// 	next_len = 0;
+// 	next_len = ft_strlen(map[id + 1]);
+// 	if (curr_len < next_len)
+// 	{
+// 		while (map[id + 1][next_len])
+// 		{
+// 			if (map[id + 1][curr_len] != '1')
+// 				return (FALSE);
+// 			curr_len++;
+// 		}
+// 	}
+// 	return (TRUE);
+// }
+
+// int	short_len(char **map, int curr_len, int id)
+// {
+
+// }
 
 int	check_wall(char *map, int len)
 {

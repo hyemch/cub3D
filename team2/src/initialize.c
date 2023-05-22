@@ -3,10 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   initialize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+/*   By: hyecheon <hyecheon@student.42seoul.kr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/22 19:25:45 by hyecheon          #+#    #+#             */
+/*   Updated: 2023/05/22 20:47:09 by hyecheon         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   initialize.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
 /*   By: yongmipa <yongmipa@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 21:06:01 by suhwpark          #+#    #+#             */
-/*   Updated: 2023/05/19 15:21:24 by yongmipa         ###   ########seoul.kr  */
+/*   Updated: 2023/05/22 16:53:41 by yongmipa         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +38,12 @@ t_game	*init_game(void)
 	t_game	*game;
 	t_info	*info;
 	t_img	*img;
+	t_dinfo	*dinfo;
 
 	game = (t_game *)safe_malloc(sizeof(t_game));
 	info = (t_info *)safe_malloc(sizeof(t_info));
 	img = (t_img *)safe_malloc(sizeof(t_img));
+	ft_memset(&dinfo, 0, sizeof(dinfo));
 	info->e = 0;
 	info->n = 0;
 	info->s = 0;

@@ -6,7 +6,7 @@
 /*   By: yongmipa <yongmipa@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 15:17:38 by yongmipa          #+#    #+#             */
-/*   Updated: 2023/05/19 15:28:40 by yongmipa         ###   ########seoul.kr  */
+/*   Updated: 2023/05/22 17:18:30 by yongmipa         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	*safe_malloc(size_t	size)
 	return (ret);
 }
 
-int	ft_size(char **str) // 2차원 사이즈 카운트 함수
+int	ft_size(char **str)
 {
 	int	i;
 	int	size;
@@ -56,7 +56,6 @@ void	ft_err(char *str, t_game *game)
 	{	
 		free(game->info);
 		free(game->img);
-		free(game);
 	}
 	write(2, "Error\n", 6);
 	write(2, str, ft_strlen(str));

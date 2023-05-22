@@ -6,20 +6,28 @@
 /*   By: yongmipa <yongmipa@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 14:17:25 by yongmipa          #+#    #+#             */
-/*   Updated: 2023/05/19 17:19:22 by yongmipa         ###   ########seoul.kr  */
+/*   Updated: 2023/05/22 15:30:55 by yongmipa         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 10000
-# endif
+# define BUFFER_SIZE 10000
+
+# define KEY_PRESS			2
+# define DESTROY_NOTIFY		17
+# define KEY_ESC			53
+# define KEY_W				13
+# define KEY_A				0
+# define KEY_S				1
+# define KEY_D				2
+# define KEY_LEFT			123
+# define KEY_RIGHT			124
+# define INVALID_KEYCODE	0
 
 # define TRUE 1
 # define FALSE 0
-# define DESTROY_NOTIFY 17
 
 # include "queue.h"
 # include "../libft/libft.h"
@@ -30,6 +38,41 @@
 # include <unistd.h>
 # include <fcntl.h>
 
+
+# define WIDTH 640
+# define HEIGHT 640
+# define MAPWIDTH 40
+# define MAPHEIGHT 20
+# define TEXWIDTH 64
+# define TEXHEIGHT 64
+
+typedef struct	s_timg
+{
+	void	*img;
+	int		*data;
+
+	int		size_l;
+	int		bpp;
+	int		endian;
+	int		img_width;
+	int		img_height;
+}				t_timg;
+typedef struct	s_dinfo
+{
+	double	pos_x;
+	double	pos_y;
+	double	plane_x;
+	double	plane_y;
+	double	dir_x;
+	double	dir_y;
+	double	time;
+	double	oldtime;
+	int		buf[MAPWIDTH][MAPHEIGHT];
+	int		**texture;
+	t_timg	*timg;
+
+}	t_dinfo;
+
 typedef struct s_info // 맵에 대한 정보 담긴 구조체
 {
 	char	**map;
@@ -38,7 +81,7 @@ typedef struct s_info // 맵에 대한 정보 담긴 구조체
 	int		e;
 	int		s;
 	int		n;
-	int		p_pos[2];
+	int		p_pos[2]; //0:y 1:x
 	int		player;
 	int		f[3];
 	int		c[3];
@@ -58,6 +101,7 @@ typedef struct s_game
 	void	*window;
 	t_img	*img;
 	t_info	*info;
+	t_dinfo	*dinfo;
 }	t_game;
 
 /* utils.c */
@@ -88,15 +132,22 @@ int		check_extension(char *filename, char *str);
 char	**is_split(char const *s);
 int		cnt_info_flag(t_game *game, char *line);
 char	*read_file(int fd, t_game *game);
-void		read_map_info(char *str, t_game *game);
+void	read_map_info(char *str, t_game *game);
 int		validate_all(char *map_join, t_game *game);
-
+int		overlen_check(char **map);
 //gnl
 char	*get_next_line(int fd);
 char	**ft_split2(char const *s, char c);
 //init
 t_game	*init_game(void);
-int	over_len(char **map);
+int		over_len(char **map);
+int		is_player_space(t_game *dir, char **map);
+//key_handle.c
+int		press_key(int keycode, t_game *game);
+int		exit_game(t_game *game);
+
+//raycatsing.c
+int		draw_map(t_game *game, t_dinfo *dinfo);
 
 
 #endif
