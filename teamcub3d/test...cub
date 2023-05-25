@@ -1,16 +1,11 @@
-SO                                            ./asset/bluestone.xpm
+SO                                            ./asset/south.xpm
+WE                                        ./asset/west.xpm
+EA  ./asset/east.xpm
+NO  ./asset/north.xpm
 
-WE                                        ./asset/colorstone.xpm
-
-EA  ./asset/eagle.xpm
-
-
-
-
-
-NO  ./asset/redbrick.xpm
 C   0,+0000000159,247
 F   24,100,171
+
 
                   111
             111111101                                                  111

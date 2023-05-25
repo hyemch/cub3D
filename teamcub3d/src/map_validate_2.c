@@ -29,6 +29,8 @@ int	validate_all(char *map_join, t_game *game)
 		&& mid_context_check(map, game) && is_player_space(game, map))
 	{
 		free(map_join);
+		game->info->p_pos[0] += 0.49;
+		game->info->p_pos[1] += 0.49;
 		game->info->map = map;
 		return (TRUE);
 	}

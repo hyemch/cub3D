@@ -153,6 +153,7 @@ void	ray_main(t_game *game)
 	game->img->data = (int *)mlx_get_data_addr(game->img->img, &game->img->bpp, &game->img->size_l, &game->img->endian);
 	mlx_loop_hook(game->mlx, main_loop, game);
 	mlx_hook(game->window, 2, 0, press_key, game);
+	mlx_hook(game->window, DESTROY_NOTIFY, 0, exit_game, game);
 	mlx_loop(game->mlx);
 	// printf("!!!!!!!!!\n");
 }

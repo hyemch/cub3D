@@ -27,8 +27,9 @@ void	floor_casting(t_game *game)
 		x = 0;
 		while (x < W)
 		{
-			game->ray->buf[y][x] = 0xFF0000; //rgb값 각각 16진수 비트연산해서 넣기
-			game->ray->buf[H - y - 1][x] = 0x00FF00;
+			//rgb값 각각 16진수 비트연산해서 넣기
+			game->ray->buf[y][x] = 0xCCCCFF; //바닥
+			game->ray->buf[H - y - 1][x] = 0xFF99CC; //천장
 			x++;
 		}
 		y++;

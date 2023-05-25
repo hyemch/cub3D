@@ -6,7 +6,7 @@
 /*   By: suhwpark <suhwpark@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 14:49:23 by yongmipa          #+#    #+#             */
-/*   Updated: 2023/05/24 19:37:06 by hyecheon         ###   ########.fr       */
+/*   Updated: 2023/05/25 13:58:41 by hyecheon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,32 @@ int	exit_game(t_game *game)
 {
 	mlx_destroy_window(game->mlx, game->window);
 	exit(0);
+}
+
+static int	cant_move_forward(t_info *info, double y, double x)
+{
+	double	move;
+
+	move = 0.05;
+	if (info->map[(int)(info->p_pos[0] + y)][(int)(info->p_pos[1] + x)] == '1')
+		return (FALSE);
+	else if (info->map[(int)(info->p_pos[0] + y + move)][(int)(info->p_pos[1] + x)] == '1')
+		return (FALSE);
+	else if (info->map[(int)(info->p_pos[0] + y)][(int)(info->p_pos[1] + x + move)] == '1')
+		return (FALSE);
+	else if (info->map[(int)(info->p_pos[0] + y - move)][(int)(info->p_pos[1] + x)] == '1')
+		return (FALSE);
+	else if (info->map[(int)(info->p_pos[0] + y)][(int)(info->p_pos[1] + x - move)] == '1')
+		return (FALSE);
+	else if (info->map[(int)(info->p_pos[0] + y + move)][(int)(info->p_pos[1] + x - move)] == '1')
+		return (FALSE);
+	else if (info->map[(int)(info->p_pos[0] + y + move)][(int)(info->p_pos[1] + x + move)] == '1')
+		return (FALSE);
+	else if (info->map[(int)(info->p_pos[0] + y - move)][(int)(info->p_pos[1] + x + move)] == '1')
+		return (FALSE);
+	else if (info->map[(int)(info->p_pos[0] + y - move)][(int)(info->p_pos[1] + x - move)] == '1')
+		return (FALSE);
+	return (TRUE);
 }
 
 static void	find_rotate_left(t_ray *ray)
@@ -59,64 +85,45 @@ void	find_move_position(t_game *game, int keycode)
 	ray = game->ray;
 	if (keycode == K_W)
 	{
-		if ((game->info->map[(int)game->info->p_pos[0]] \
-		[(int)(game->info->p_pos[1] + ray->dirX * ray->move_speed)]) != '1')
+		if (cant_move_forward(game->info, 0, ray->dirX * ray->move_speed))
 			game->info->p_pos[1] += ray->dirX * ray->move_speed;
-		if ((game->info->map[(int)(game->info->p_pos[0] + \
-		ray->dirY * ray->move_speed)][(int)game->info->p_pos[1]]) != '1')
+		if (cant_move_forward(game->info, ray->dirY * ray->move_speed, 0))
 			game->info->p_pos[0] += ray->dirY * ray->move_speed;
 	}
 	else if (keycode == K_S)
 	{
-		if ((game->info->map[(int)game->info->p_pos[0]] \
-		[(int)(game->info->p_pos[1] - ray->dirX * ray->move_speed)]) != '1')
+		if (cant_move_forward(game->info, 0, -(ray->dirX * ray->move_speed)))
 			game->info->p_pos[1] -= ray->dirX * ray->move_speed;
-		if ((game->info->map[(int)(game->info->p_pos[0] - \
-		ray->dirY * ray->move_speed)][(int)game->info->p_pos[1]]) != '1')
+		if (cant_move_forward(game->info, -(ray->dirY * ray->move_speed), 0))
 			game->info->p_pos[0] -= ray->dirY * ray->move_speed;
 	}
 	else if (keycode == K_A)
 	{
-		if ((game->info->map[(int)game->info->p_pos[0]] \
-		[(int)(game->info->p_pos[1] - ray->dirX * ray->move_speed)]) != '1')
-			game->info->p_pos[1] += -ray->dirY * ray->move_speed;
-		if ((game->info->map[(int)(game->info->p_pos[0] + \
-		ray->dirY * ray->move_speed)][(int)game->info->p_pos[1]]) != '1')
+		if (cant_move_forward(game->info, 0, -(ray->dirY * ray->move_speed)))
+			game->info->p_pos[1] -= ray->dirY * ray->move_speed;
+		if (cant_move_forward(game->info, ray->dirY * ray->move_speed, 0))
 			game->info->p_pos[0] += ray->dirX * ray->move_speed;
 	}
 	else if (keycode == K_D)
 	{
-		if ((game->info->map[(int)game->info->p_pos[0]] \
-		[(int)(game->info->p_pos[1] + ray->dirX * ray->move_speed)]) != '1')
+		if (cant_move_forward(game->info, 0, ray->dirY * ray->move_speed))
 			game->info->p_pos[1] += ray->dirY * ray->move_speed;
-		if ((game->info->map[(int)(game->info->p_pos[0] - \
-		ray->dirY * ray->move_speed)][(int)game->info->p_pos[1]]) != '1')
-			game->info->p_pos[0] += -ray->dirX * ray->move_speed;
+		if (cant_move_forward(game->info, -(ray->dirY * ray->move_speed), 0))
+			game->info->p_pos[0] -= ray->dirX * ray->move_speed;
 	}
 }
 
 int	find_move(t_game *game, int keycode)
 {
-	if (keycode == K_W || keycode == K_S || \
-	keycode == K_A || keycode == K_D)
-		find_move_position(game, keycode);
 	if (keycode == K_L)
 		find_rotate_left(game->ray);
 	else if (keycode == K_R)
 		find_rotate_right(game->ray);
+	else if (keycode == K_W || keycode == K_S || \
+	keycode == K_A || keycode == K_D)
+		find_move_position(game, keycode);
 	else
 		return (FALSE);
-	return (TRUE);
-}
-
-static int	cant_move_forward(t_info *info, double b_pos[])
-{
-	if (info->map[(int)info->p_pos[0]][(int)info->p_pos[1]] == '1')
-	{
-		info->p_pos[0] = b_pos[0];
-		info->p_pos[1] = b_pos[1];
-		return (FALSE);
-	}
 	return (TRUE);
 }
 
@@ -132,14 +139,16 @@ int	press_key(int keycode, t_game *game)
 		exit_game(game);
 	if (!find_move(game, keycode))
 		return (0);
-	if (!cant_move_forward(game->info, b_pos))
-		return (0);
-	else if (info->map[(int)info->p_pos[0]][(int)info->p_pos[1]] != '1')
-	{
+//	if (!cant_move_forward(game->info))
+//		return (0);
+	if (info->map[(int)info->p_pos[0]][(int)info->p_pos[1]] != '1')
+//	{
 		info->map[(int)b_pos[0]][(int)b_pos[1]] = '0';
-		info->map[(int)info->p_pos[0]][(int)info->p_pos[1]] = 'P';
-		// printf("%d %d\n",info->p_pos[0], info->p_pos[1]);
-		// draw_map(game->info, game->img, game->mlx, game->window);
-	}
+////		info->p_pos[0] = b_pos[0];
+////		info->p_pos[1] = b_pos[1];
+//		info->map[(int)info->p_pos[0]][(int)info->p_pos[1]] = 'P';
+//		// printf("%d %d\n",info->p_pos[0], info->p_pos[1]);
+//		// draw_map(game->info, game->img, game->mlx, game->window);
+//	}
 	return (0);
 }
