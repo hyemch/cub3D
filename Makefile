@@ -1,47 +1,78 @@
-CC 		=	cc
-CFLAGS	=	-Wall -Wextra -Werror
-MFLAGS	=	-framework OpenGL -framework Appkit
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: suhwpark <suhwpark@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2022/12/16 17:14:23 by yongmipa          #+#    #+#              #
+#    Updated: 2023/05/24 17:14:011 by suhwpark         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
-NAME	= 	cub3D
-#NAME_B	=	cub3D_bonus
+NAME		= cub3D
 
-MLX_DIR	=	./mlx
-MLX		=	mlx
+CC			= cc
+FLAGS		= -Wall -Werror -Wextra -g3
+AR			= ar rcs
+RM			= rm -f
 
-INC_DIR	=	-I./inc
+INCS_DIR	= ./includes/
+SRCS_DIR	= ./src/
+LIB_DIR		= ./libft/
+MLX_DIR		= ./mlx/
 
-INC		=	$(INC_DIR)/cub3d.h
-SRC		=	src/main.c \
+LIB_NAME	= ./libft/libft.a
+INCS		= -I includes
+MLX_FLAGS	= -L./mlx -lmlx -framework OpenGL -framework Appkit
 
-#INC_B	=	$(INC_DIR)/cub3d_bonus.h \
-#SRC_B	=	src/main_bonus.c \
+SRC			=	get_next_line.c \
+				queue_utils.c queue_utils2.c \
+				utils.c \
+				map_validate_1.c \
+				main.c\
+				map_validate_2.c \
+				map_validate_3.c \
+				use_bfs.c \
+				initialize.c \
+				map_valid_utils.c \
+				map_valid_utils_1.c \
+				map_validate_1.1.c \
+				map_context_check.c \
+				map_wall_check.c \
+				key_handle.c \
+				key_handle2.c \
+				key_handle_utils.c \
+				set_ray_values.c \
+				set_ray_values2.c \
+				main_loop.c \
+				main_loop_utils.c \
+				ray_casting.c
+LIBS		=	$(addprefix $(LIB_DIR), $(LIB_NAME))
+SRCS		=	$(addprefix $(SRCS_DIR), $(SRC))
+OBJS		=	$(SRCS:.c=.o)
 
+all : $(NAME)
 
-OBJ		=	$(SRC:%.c=%.o)
-#OBJ_B	=	$(SRC_B:%.c=%.o)
-RM		=	rm -f
-
-all		:	$(NAME)
-
-#bonus	:	$(NAME_B)
+$(NAME) : $(OBJS)
+	make -C $(LIB_DIR)
+	make -C $(MLX_DIR)
+	$(CC) -o $(NAME) $(OBJS) -L $(LIB_DIR) -lft -I $(INCS_DIR) -L $(MLX_DIR) -lmlx -framework OpenGL -framework Appkit
 
 %.o : %.c
-	$(CC) $(CFLAGS) $(INC_DIR) -c $< -o $@
+	$(CC) $(FLAGS) -c $< -o $@
 
-$(NAME)	:	$(OBJ)
-	$(CC) $(CFLAGS) -L$(MLX_DIR) -l$(MLX) $(MFLAGS) -o $@ $(OBJ)
+clean :
+	make -C $(LIB_DIR) clean
+	make -C $(MLX_DIR) clean
+	$(RM) $(OBJS)
 
-#$(NAME_B)	:	$(OBJ_B)
-#	$(CC) $(CFLAGS) -L$(MLX_DIR) -l$(MLX) $(MFLAGS) -o $@ $(OBJ_B)
-
-clean	:
-	$(RM) $(OBJ)
-#$(OBJ_B)
-
-fclean	: clean
+fclean : clean
+	make -C $(LIB_DIR) fclean
 	$(RM) $(NAME)
-#$(NAME_B)
 
-re : fclean all
+re :
+	make fclean
+	make all
 
-.PHONY : all clean fclean re
+PHONY	: all clean fclean re

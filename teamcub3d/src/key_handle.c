@@ -18,7 +18,32 @@ int	exit_game(t_game *game)
 	exit(0);
 }
 
-static int	cant_move_forward(t_info *info, double y, double x)
+void	side_case(t_game *game)
+{
+	t_ray	*ray;
+	double	y;
+	double	x;
+
+	ray = game->ray;
+	y = game->info->p_pos[0];
+	x = game->info->p_pos[1];
+	if (ray->key_a)
+	{
+		if (cant_move_check(game->info, y, x - (ray->dir_y * ray->move_speed)))
+			game->info->p_pos[1] -= ray->dir_y * ray->move_speed;
+		if (cant_move_check(game->info, ray->dir_x * ray->move_speed, 0))
+			game->info->p_pos[0] += ray->dir_x * ray->move_speed;
+	}
+	if (ray->key_d)
+	{
+		if (cant_move_check(game->info, 0, ray->dir_y * ray->move_speed))
+			game->info->p_pos[1] += ray->dir_y * ray->move_speed;
+		if (cant_move_check(game->info, -(ray->dir_x * ray->move_speed), 0))
+			game->info->p_pos[0] -= ray->dir_x * ray->move_speed;
+	}
+}
+
+static int	cant_move_forward(t_info *info, double y, double x, double move)
 {
 	double	move;
 

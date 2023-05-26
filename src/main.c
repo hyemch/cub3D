@@ -3,41 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyecheon <hyecheon@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: yongmipa <yongmipa@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/12 19:08:21 by hyecheon          #+#    #+#             */
-/*   Updated: 2023/05/12 19:09:10 by hyecheon         ###   ########.fr       */
+/*   Created: 2023/05/03 18:08:44 by yongmipa          #+#    #+#             */
+/*   Updated: 2023/05/26 17:26:37 by yongmipa         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/cub3d.h"
+#include "../includes/cub3D.h"
 
-int	map_extension(char *filename)
+int	main(int ac, char *av[])
 {
-	int	i;
+	t_game	*game;
+	int		fd;
 
-	i = 0;
-	while (filename && filename[i] != '\0')
-		i++;
-	if (filename[i - 4] != '.' || filename[i - 3] != 'c' || \
-		filename[i - 2] != 'u' || filename[i - 1] != 'b')
-		return (1);
-	return (0);
-}
-
-int	main(int argc, char **argv)
-{
-	void	*mlx;
-	void	*win;
-
-	(void)argv;
-	if (argc != 2)
-		return (write(2, "ERROR\nArgument count error\n", 27));
-	mlx = mlx_init();
-	win = mlx_new_window(mlx, 200, 200, "cub3D");
-//	mlx_loop_hook(game.mlx, draw_map, &game);
-//	mlx_hook(game.win, X_EVENT_KEY_RELEASE, 0, key_hook, &game);
-//	mlx_hook(game.win, X_EVENT_KEY_EXIT, 0, exit_game, &game);
-//	mlx_loop(game.mlx);
+	if (ac != 2)
+		ft_err("invalid argument count", 0);
+	if (!check_extension(av[1], ".cub"))
+		ft_err("invalid file argument extention", 0);
+	fd = open(av[1], O_RDONLY);
+	if (fd < 0)
+		ft_err("Failed to open file", 0);
+	game = init_game();
+	if (!validate_all(read_file(fd, game), game))
+		ft_err("map error!", game);
+	close(fd);
+	game->window = mlx_new_window(game->mlx, W, H, "cub3D");
+	game->info->map[(int)game->info->p_pos[0]][(int)game->info->p_pos[1]] = '0';
+	raycasting(game);
 	return (0);
 }
