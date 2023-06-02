@@ -62,13 +62,15 @@ void	set_draw_values(t_game *game)
 	ray = game->ray;
 	if (ray->side == 0)
 	{
-		ray->perp_wall_dist = ((ray->map_x - game->info->p_pos[1])
-				+ (1 - ray->step_x) / 2) / ray->ray_dir_x;
+		ray->perp_wall_dist = ray->side_dist_x - ray->delta_dist_x;
+				//((ray->map_x - game->info->p_pos[1])
+				//+ (1 - ray->step_x) / 2) / ray->ray_dir_x;
 	}
 	else
 	{
-		ray->perp_wall_dist = ((ray->map_y - game->info->p_pos[0])
-				+ (1 - ray->step_y) / 2) / ray->ray_dir_y;
+		ray->perp_wall_dist = ray->side_dist_y - ray->delta_dist_y;
+				//((ray->map_y - game->info->p_pos[0])
+				//+ (1 - ray->step_y) / 2) / ray->ray_dir_y;
 	}
 	ray->line_height = (int)(H / ray->perp_wall_dist);
 	ray->draw_start = -ray->line_height / 2 + H / 2 ;
@@ -121,9 +123,9 @@ void	set_colors_values(t_game *game, int x)
 		else if (ray->side == 0 && ray->ray_dir_x < 0)
 			ray->color = ray->texture[2][wall->tex_y * 64 + wall->tex_x];
 		else if (ray->side == 1 && ray->ray_dir_y > 0)
-			ray->color = ray->texture[0][wall->tex_y * 64 + wall->tex_x];
-		else if (ray->side == 1 && ray->ray_dir_y < 0)
 			ray->color = ray->texture[1][wall->tex_y * 64 + wall->tex_x];
+		else if (ray->side == 1 && ray->ray_dir_y < 0)
+			ray->color = ray->texture[0][wall->tex_y * 64 + wall->tex_x];
 		ray->buf[y][x] = ray->color;
 		y++;
 	}
