@@ -46,14 +46,14 @@ void	side_case(t_game *game)
 	ray = game->ray;
 	y = game->info->p_pos[0];
 	x = game->info->p_pos[1];
-	if (ray->key_d)
+	if (ray->key_a)
 	{
 		if (cant_move_check(game->info, y, x - (ray->dir_y * ray->move_speed)))
 			game->info->p_pos[1] -= ray->dir_y * ray->move_speed;
 		if (cant_move_check(game->info, y + ray->dir_x * ray->move_speed, x))
 			game->info->p_pos[0] += ray->dir_x * ray->move_speed;
 	}
-	if (ray->key_a)
+	if (ray->key_d)
 	{
 		if (cant_move_check(game->info, y, x + ray->dir_y * ray->move_speed))
 			game->info->p_pos[1] += ray->dir_y * ray->move_speed;

@@ -19,7 +19,7 @@ int	exit_game(t_game *game)
 	exit(0);
 }
 
-void	find_rotate_right(t_ray *ray)
+void	find_rotate_left(t_ray *ray)
 {
 	double	olddirx;
 	double	oldplanex;
@@ -36,7 +36,7 @@ void	find_rotate_right(t_ray *ray)
 				+ ray->plane_y * cos(ray->rot_speed);
 }
 
-void	find_rotate_left(t_ray *ray)
+void	find_rotate_right(t_ray *ray)
 {
 	double	olddirx;
 	double	oldplanex;

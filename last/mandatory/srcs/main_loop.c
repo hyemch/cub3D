@@ -6,7 +6,7 @@
 /*   By: suhwpark <suhwpark@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 01:07:22 by hyecheon          #+#    #+#             */
-/*   Updated: 2023/06/02 17:58:49 by hyecheon         ###   ########.fr       */
+/*   Updated: 2023/05/29 16:52:58 by suhwpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	draw_map(t_game *game)
 		x = 0;
 		while (x < W)
 		{
-			game->img->data[y * W + x] = game->ray->buf[y][W - x - 1];
+			game->img->data[y * W + x] = game->ray->buf[y][x];
 			x++;
 		}
 		y++;

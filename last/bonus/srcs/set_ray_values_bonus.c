@@ -6,7 +6,7 @@
 /*   By: suhwpark <suhwpark@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 20:10:20 by suhwpark          #+#    #+#             */
-/*   Updated: 2023/05/29 16:51:50 by suhwpark         ###   ########.fr       */
+/*   Updated: 2023/06/02 19:15:54 by hyecheon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	set_ray_values(t_game *game, int x)
 	ray = game->ray;
 	ray->map_x = (int)game->info->p_pos[1];
 	ray->map_y = (int)game->info->p_pos[0];
-	ray = game->ray;
 	ray->camera_x = 2 * x / (double)W - 1;
 	ray->ray_dir_x = ray->dir_x + ray->plane_x * ray->camera_x;
 	ray->ray_dir_y = ray->dir_y + ray->plane_y * ray->camera_x;
@@ -62,15 +61,13 @@ void	set_draw_values(t_game *game)
 	ray = game->ray;
 	if (ray->side == 0)
 	{
-		ray->perp_wall_dist = ray->side_dist_x - ray->delta_dist_x;
-				//((ray->map_x - game->info->p_pos[1])
-				//+ (1 - ray->step_x) / 2) / ray->ray_dir_x;
+		ray->perp_wall_dist = ((ray->map_x - game->info->p_pos[1])
+				+ (1 - ray->step_x) / 2) / ray->ray_dir_x;
 	}
 	else
 	{
-		ray->perp_wall_dist = ray->side_dist_y - ray->delta_dist_y;
-				//((ray->map_y - game->info->p_pos[0])
-				//+ (1 - ray->step_y) / 2) / ray->ray_dir_y;
+		ray->perp_wall_dist = ((ray->map_y - game->info->p_pos[0])
+				+ (1 - ray->step_y) / 2) / ray->ray_dir_y;
 	}
 	ray->line_height = (int)(H / ray->perp_wall_dist);
 	ray->draw_start = -ray->line_height / 2 + H / 2 ;
@@ -101,8 +98,8 @@ void	set_wall_values(t_game *game)
 	if (ray->side == 1 && ray->ray_dir_y < 0)
 		wall->tex_x = 64 - wall->tex_x - 1;
 	wall->step = 1.0 * 64 / ray->line_height;
-	wall->tex_pos = (ray->draw_start - H / 2 + ray->line_height / 2)
-		* wall->step;
+	wall->tex_pos = (ray->draw_start - H / 2 + ray->line_height / 2) \
+	* wall->step;
 }
 
 void	set_colors_values(t_game *game, int x)
